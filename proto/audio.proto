@@ -1,0 +1,38 @@
+//Versión de Protobuf que estamos usando
+syntax = "proto3";
+
+//Para enviar mensajes de texto entre los nodos
+message DownloadFileRequest {
+   string nombre = 1;
+}
+
+//Para enviar los chunks de los archivos
+message DataChunkResponse {
+    oneof request {
+        bytes data = 1;
+        string nombre = 2;
+    }
+}
+
+// Este bloque representa el nombre del servicio "AudioService"
+service AudioService {
+   // Esta es la función para descargar archivos
+   rpc downloadAudio (DownloadFileRequest) returns (stream DataChunkResponse);
+
+   // Esta es la función para subir archivos
+   rpc uploadAudio (stream DataChunkResponse) returns (DownloadFileRequest);
+}
+
+// Servicio para manejar imágenes JPEG
+service ImageService {
+    // Función para descargar imágenes JPEG
+    rpc downloadJPEG(DownloadFileRequest) returns (stream DataChunkResponse);
+    // Función para subir imágenes JPEG
+    rpc uploadJPEG(stream DataChunkResponse) returns (DownloadFileRequest);
+
+    // Función para descargar imágenes PNG
+    rpc downloadPNG(DownloadFileRequest) returns (stream DataChunkResponse);
+ 
+    // Función para subir imágenes PNG
+    rpc uploadPNG(stream DataChunkResponse) returns (DownloadFileRequest);
+ }
