@@ -1,0 +1,29 @@
+GET http://localhost:3000/api/audios
+
+###
+
+GET http://localhost:3000/api/audios/2
+
+###
+
+POST http://localhost:3000/api/audios
+Content-Type: application/json
+
+{
+    "name": "sample.mp3",
+    "path": "/resources/sample.mp3"
+}
+
+###
+
+PUT http://localhost:3000/api/audios/3
+Content-Type: application/json
+
+{
+    "name": "sample6.mp3",
+    "path": "/uploads/sample6.mp3"
+}
+
+###
+
+DELETE http://localhost:3000/api/audios/3
