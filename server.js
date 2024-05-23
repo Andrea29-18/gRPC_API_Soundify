@@ -48,15 +48,13 @@ function uploadAudioImpl(call, callback) {
 
     // Vamos a recibir el nombre y el stream
     call.on('data', async (DataChunkResponse) => {
-        if (DataChunkResponse.nombre) {
+        if (DataChunkResponse.nombre && DataChunkResponse.data) {
             nombreArchivo = DataChunkResponse.nombre;
             tempFilePath = `./uploads/${nombreArchivo}`;
-            console.debug(`Recibiendo el archivo: ${tempFilePath}`);
-        }
-        else if (DataChunkResponse.data) {
             chunk = DataChunkResponse.data;
             fs.appendFileSync(tempFilePath, chunk);
             process.stdout.write('.');
+            console.debug(`Recibiendo el archivo: ${tempFilePath}`);
         }
     }).on('end', function () {
         callback(null, { nombre: nombreArchivo });
