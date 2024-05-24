@@ -50,7 +50,7 @@ function uploadAudioImpl(call, callback) {
     call.on('data', async (DataChunkResponse) => {
         if (DataChunkResponse.nombre && DataChunkResponse.data) {
             nombreArchivo = DataChunkResponse.nombre;
-            tempFilePath = `./uploads/${nombreArchivo}`;
+            tempFilePath = `./audio/${nombreArchivo}`;
             chunk = DataChunkResponse.data;
             fs.appendFileSync(tempFilePath, chunk);
             process.stdout.write('.');
