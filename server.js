@@ -13,14 +13,16 @@ const audioProto = grpc.loadPackageDefinition(packageDefinition);
 
 // Crea un servidor gRPC
 const server = new grpc.Server();
-server.addService(audioProto.AudioService.service, { downloadAudio: downloadAudioImpl, uploadAudio: uploadAudioImpl });
+server.addService(audioProto.AudioService.service, { 
+    downloadAudio: downloadAudioImpl, 
+    uploadAudio: uploadAudioImpl });
 
-server.addService(audioProto.ImageService.service, {
+/*server.addService(audioProto.ImageService.service, {
     downloadJPEG: downloadJPEGImpl,
     uploadJPEG: uploadJPEGImpl,
     downloadPNG: downloadPNGImpl,
     uploadPNG: uploadPNGImpl,
-});
+});*/
 
 // Inicia el servidor en el puerto SERVER_PORT
 server.bindAsync(`localhost:${process.env.SERVER_PORT}`, grpc.ServerCredentials.createInsecure(), () => {
@@ -29,7 +31,7 @@ server.bindAsync(`localhost:${process.env.SERVER_PORT}`, grpc.ServerCredentials.
 
 // Implementación de downloadAudio
 function downloadAudioImpl(call) {
-    const stream = fs.createReadStream(`./resources/${call.request.nombre}`, { highWaterMark: 1024 });
+    const stream = fs.createReadStream(`./audio/${call.request.nombre}`, { highWaterMark: 1024 });
 
     console.log(`\n\nEnviando el archivo: ${call.request.nombre}`);
     stream.on('data', function (chunk) {
@@ -62,6 +64,8 @@ function uploadAudioImpl(call, callback) {
     })
 }
 
+
+/*
 // Implementación de downloadJPEG
 function downloadJPEGImpl(call) {
     const stream = fs.createReadStream(`./resources/${call.request.nombre}`);
@@ -118,4 +122,4 @@ function uploadPNGImpl(call, callback) {
         callback(null, { nombre: fileName });
         console.log('Envío de datos terminado.');
     });
-}
+}*/
